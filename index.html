@@ -1,0 +1,974 @@
+<!DOCTYPE html>
+<html lang="sq">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mana's Mobil Shop – Suharekë</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --gold: #D4A843;
+  --gold-lt: #E8C06A;
+  --gold-dim: rgba(212,168,67,0.10);
+  --gold-mid: rgba(212,168,67,0.18);
+  --bg:      #080809;
+  --bg2:     #0C0C0F;
+  --card:    #111115;
+  --card2:   #16161C;
+  --line:    rgba(255,255,255,0.055);
+  --text:    #E8E8EE;
+  --sub:     #6C6C80;
+  --dim:     #3A3A4A;
+  --white:   #ffffff;
+  --r-pill:  999px;
+  --r-card:  24px;
+  --r-sm:    14px;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+::-webkit-scrollbar { width: 3px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--gold-dim); border-radius: 99px; }
+
+/* ─── NAV ─── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 1.1rem 4.5rem;
+  background: rgba(8,8,9,0.75);
+  backdrop-filter: blur(28px) saturate(1.5);
+  border-bottom: 1px solid var(--line);
+  transition: padding 0.35s ease;
+}
+
+.nav-logo { display: flex; align-items: center; gap: 0.7rem; text-decoration: none; }
+
+.logo-gem {
+  width: 32px; height: 32px;
+  background: linear-gradient(135deg, var(--gold) 0%, var(--gold-lt) 100%);
+  border-radius: var(--r-pill);
+  display: grid; place-items: center;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.85rem; font-weight: 700;
+  color: #0A0A0B;
+  letter-spacing: -0.5px;
+  flex-shrink: 0;
+}
+
+.nav-wordmark {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.15rem; font-weight: 600;
+  color: var(--white); letter-spacing: 0.1px;
+}
+.nav-wordmark em { font-style: italic; color: var(--gold); }
+
+.nav-links { display: flex; gap: 2.5rem; list-style: none; }
+.nav-links a {
+  text-decoration: none; color: var(--sub);
+  font-size: 0.83rem; font-weight: 400; letter-spacing: 0.15px;
+  transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--white); }
+
+.nav-end { display: flex; align-items: center; gap: 1.25rem; }
+.nav-tel { font-size: 0.78rem; color: var(--dim); letter-spacing: 0.3px; }
+
+.nav-btn {
+  background: var(--gold);
+  color: #080809;
+  border: none; cursor: pointer;
+  padding: 0.5rem 1.4rem;
+  border-radius: var(--r-pill);
+  font-family: 'Inter', sans-serif;
+  font-size: 0.8rem; font-weight: 600;
+  letter-spacing: 0.1px;
+  transition: background 0.2s, box-shadow 0.2s, transform 0.15s;
+}
+.nav-btn:hover {
+  background: var(--gold-lt);
+  box-shadow: 0 4px 18px rgba(212,168,67,0.28);
+  transform: translateY(-1px);
+}
+
+/* ─── HERO ─── */
+.hero {
+  min-height: 100vh;
+  display: grid; grid-template-columns: 1fr 380px;
+  align-items: center; gap: 3rem;
+  padding: 9rem 4.5rem 5rem;
+  position: relative; overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute; inset: 0; pointer-events: none;
+  background:
+    radial-gradient(ellipse 60% 70% at 70% 40%, rgba(212,168,67,0.045) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 55% at 5% 85%, rgba(90,70,180,0.035) 0%, transparent 65%);
+}
+
+.hero-content { position: relative; z-index: 2; }
+
+.hero-kicker {
+  display: inline-flex; align-items: center; gap: 0.55rem;
+  margin-bottom: 1.75rem;
+}
+.kicker-bar { width: 28px; height: 1px; background: var(--gold); opacity: 0.8; }
+.kicker-text {
+  font-size: 0.68rem; font-weight: 500; color: var(--gold);
+  letter-spacing: 2px; text-transform: uppercase; opacity: 0.9;
+}
+
+.hero h1 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(3.2rem, 5.8vw, 5.4rem);
+  font-weight: 600; line-height: 1.03;
+  letter-spacing: -1.5px; color: var(--white);
+  margin-bottom: 1.5rem;
+}
+.hero h1 i { font-style: italic; color: var(--gold); }
+
+.hero-p {
+  font-size: 0.95rem; color: var(--sub); line-height: 1.8;
+  max-width: 420px; margin-bottom: 2.5rem; font-weight: 400;
+}
+
+.hero-btns { display: flex; gap: 0.75rem; flex-wrap: wrap; align-items: center; }
+
+.btn-gold {
+  display: inline-flex; align-items: center; gap: 0.55rem;
+  background: var(--gold); color: #080809;
+  border: none; cursor: pointer;
+  padding: 0.82rem 2rem; border-radius: var(--r-pill);
+  font-family: 'Inter', sans-serif; font-size: 0.88rem; font-weight: 600;
+  text-decoration: none; letter-spacing: 0.1px;
+  transition: background 0.2s, box-shadow 0.2s, transform 0.15s;
+}
+.btn-gold:hover {
+  background: var(--gold-lt);
+  box-shadow: 0 8px 28px rgba(212,168,67,0.28);
+  transform: translateY(-2px);
+}
+
+.btn-outline {
+  display: inline-flex; align-items: center; gap: 0.55rem;
+  background: transparent; color: var(--text);
+  border: 1px solid var(--line); cursor: pointer;
+  padding: 0.82rem 2rem; border-radius: var(--r-pill);
+  font-family: 'Inter', sans-serif; font-size: 0.88rem; font-weight: 400;
+  text-decoration: none; letter-spacing: 0.1px;
+  transition: border-color 0.2s, background 0.2s, transform 0.15s, color 0.2s;
+}
+.btn-outline:hover {
+  border-color: rgba(212,168,67,0.3);
+  background: var(--gold-dim); color: var(--white);
+  transform: translateY(-2px);
+}
+
+.hero-stats {
+  display: flex; gap: 0; margin-top: 3rem;
+  padding-top: 2rem; border-top: 1px solid var(--line);
+}
+.stat { flex: 1; padding-right: 2rem; }
+.stat + .stat { border-left: 1px solid var(--line); padding-left: 2rem; }
+.stat:last-child { padding-right: 0; }
+
+.stat-n {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2rem; font-weight: 700; color: var(--white);
+  line-height: 1; letter-spacing: -1px;
+}
+.stat-n sup { font-size: 0.85rem; color: var(--gold); vertical-align: super; margin-left: 1px; font-family: 'Inter', sans-serif; font-weight: 600; }
+.stat-l { font-size: 0.7rem; color: var(--dim); margin-top: 0.3rem; letter-spacing: 0.2px; }
+
+/* ─── HERO RIGHT — PHONE LIST ─── */
+.hero-right { position: relative; z-index: 2; display: flex; flex-direction: column; gap: 0.7rem; }
+
+.ph-card {
+  display: flex; align-items: center; gap: 1rem;
+  background: var(--card); border: 1px solid var(--line);
+  border-radius: var(--r-card); padding: 1rem 1.25rem;
+  cursor: pointer;
+  transition: border-color 0.25s, background 0.25s, transform 0.25s, box-shadow 0.25s;
+}
+.ph-card:hover {
+  border-color: rgba(212,168,67,0.22);
+  background: var(--card2);
+  transform: translateX(-5px);
+  box-shadow: 8px 0 0 -2px rgba(212,168,67,0.08);
+}
+.ph-card.star { border-color: rgba(212,168,67,0.18); }
+
+.ph-icon {
+  width: 40px; height: 40px; border-radius: var(--r-pill);
+  background: var(--gold-dim); display: grid; place-items: center; flex-shrink: 0;
+}
+.ph-icon svg { width: 18px; height: 18px; color: var(--gold); }
+
+.ph-info { flex: 1; min-width: 0; }
+.ph-make { font-size: 0.6rem; color: var(--dim); letter-spacing: 1px; text-transform: uppercase; }
+.ph-model { font-size: 0.85rem; font-weight: 500; color: var(--white); margin-top: 0.1rem; }
+.ph-spec { font-size: 0.68rem; color: var(--sub); margin-top: 0.08rem; }
+
+.ph-price {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.1rem; font-weight: 700; color: var(--gold);
+  white-space: nowrap; letter-spacing: -0.3px;
+}
+
+.ph-star-badge {
+  position: absolute; top: -7px; right: 14px;
+  background: var(--gold); color: #080809;
+  font-size: 0.55rem; font-weight: 700;
+  padding: 0.18rem 0.55rem; border-radius: var(--r-pill);
+  letter-spacing: 0.8px; text-transform: uppercase;
+}
+.ph-card.star { position: relative; }
+
+/* ─── BRANDS STRIP ─── */
+.brands-strip {
+  background: var(--bg2);
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  padding: 1.6rem 4.5rem;
+  display: flex; align-items: center; gap: 2.5rem;
+}
+.strip-label { font-size: 0.62rem; color: var(--dim); letter-spacing: 1.5px; text-transform: uppercase; white-space: nowrap; flex-shrink: 0; }
+.strip-sep { width: 1px; height: 20px; background: var(--line); flex-shrink: 0; }
+.strip-chips { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+
+.brand-chip {
+  display: inline-flex; align-items: center; gap: 0.45rem;
+  background: transparent; border: 1px solid var(--line);
+  padding: 0.38rem 1rem; border-radius: var(--r-pill);
+  font-size: 0.78rem; font-weight: 400; color: var(--sub);
+  cursor: pointer; transition: all 0.2s; white-space: nowrap;
+}
+.brand-chip:hover { border-color: rgba(212,168,67,0.28); color: var(--white); background: var(--gold-dim); }
+.b-dot { width: 6px; height: 6px; border-radius: 50%; }
+
+/* ─── SECTION BASE ─── */
+.sec { padding: 6rem 4.5rem; }
+.sec-alt { background: var(--bg2); }
+
+.s-kicker { display: inline-flex; align-items: center; gap: 0.5rem; margin-bottom: 0.9rem; }
+.s-kicker-bar { width: 18px; height: 1px; background: var(--gold); }
+.s-kicker-txt { font-size: 0.62rem; font-weight: 500; color: var(--gold); letter-spacing: 2px; text-transform: uppercase; }
+
+.s-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2rem, 3.2vw, 2.9rem); font-weight: 600;
+  letter-spacing: -1px; color: var(--white); line-height: 1.08;
+  margin-bottom: 0.65rem;
+}
+.s-sub { font-size: 0.9rem; color: var(--sub); line-height: 1.75; max-width: 460px; }
+
+/* ─── PRODUCTS ─── */
+.prod-top { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 2.25rem; }
+
+.filter-row { display: flex; gap: 0.4rem; }
+.f-tab {
+  background: transparent; border: 1px solid var(--line); color: var(--sub);
+  padding: 0.42rem 1.1rem; border-radius: var(--r-pill);
+  font-family: 'Inter', sans-serif; font-size: 0.78rem; font-weight: 400;
+  cursor: pointer; transition: all 0.2s;
+}
+.f-tab.on, .f-tab:hover {
+  background: var(--gold); color: #080809; border-color: var(--gold); font-weight: 600;
+}
+
+.prod-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(205px, 1fr));
+  gap: 1.1rem;
+}
+
+.prod-card {
+  background: var(--card); border: 1px solid var(--line);
+  border-radius: var(--r-card); padding: 1.5rem 1.35rem;
+  position: relative; cursor: pointer;
+  transition: border-color 0.25s, background 0.25s, transform 0.25s, box-shadow 0.25s;
+  display: flex; flex-direction: column;
+}
+.prod-card:hover {
+  border-color: rgba(212,168,67,0.2);
+  background: var(--card2);
+  transform: translateY(-5px);
+  box-shadow: 0 18px 44px rgba(0,0,0,0.35);
+}
+.prod-card:hover .p-cta { background: var(--gold); color: #080809; border-color: var(--gold); }
+
+.p-badge {
+  position: absolute; top: 1rem; right: 1rem;
+  background: var(--gold-dim); border: 1px solid rgba(212,168,67,0.22);
+  color: var(--gold); font-size: 0.58rem; font-weight: 600;
+  padding: 0.18rem 0.55rem; border-radius: var(--r-pill);
+  letter-spacing: 0.8px; text-transform: uppercase;
+}
+
+.p-icon-wrap {
+  width: 48px; height: 48px; border-radius: var(--r-pill);
+  background: var(--bg2); border: 1px solid var(--line);
+  display: grid; place-items: center; margin-bottom: 1.1rem;
+}
+.p-icon-wrap svg { width: 22px; height: 22px; color: var(--sub); }
+
+.p-make { font-size: 0.6rem; color: var(--dim); letter-spacing: 1px; text-transform: uppercase; }
+.p-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.05rem; font-weight: 600; color: var(--white);
+  margin-top: 0.2rem; margin-bottom: 0.55rem; line-height: 1.2; letter-spacing: -0.2px;
+}
+
+.p-tags { display: flex; gap: 0.3rem; flex-wrap: wrap; margin-bottom: 0.85rem; }
+.p-tag {
+  background: rgba(255,255,255,0.025); border: 1px solid var(--line);
+  color: var(--dim); font-size: 0.6rem; padding: 0.15rem 0.5rem;
+  border-radius: var(--r-pill); letter-spacing: 0.3px;
+}
+
+.p-price-row { margin-top: auto; padding-top: 0.7rem; border-top: 1px solid var(--line); }
+.p-price {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.5rem; font-weight: 700; color: var(--gold); letter-spacing: -0.5px;
+}
+.p-warranty { font-size: 0.65rem; color: var(--dim); margin-top: 0.2rem; display: flex; align-items: center; gap: 0.3rem; }
+.w-dot { width: 4px; height: 4px; border-radius: 50%; background: #2ECC71; flex-shrink: 0; }
+
+.p-cta {
+  width: 100%; margin-top: 0.9rem;
+  background: transparent; border: 1px solid var(--line); color: var(--sub);
+  padding: 0.58rem; border-radius: var(--r-pill);
+  font-family: 'Inter', sans-serif; font-size: 0.76rem; font-weight: 500;
+  cursor: pointer; transition: all 0.2s;
+}
+
+/* ─── SERVICES ─── */
+.serv-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 1rem; margin-top: 2.5rem;
+}
+.serv-card {
+  background: var(--card); border: 1px solid var(--line);
+  border-radius: var(--r-card); padding: 2rem 1.75rem;
+  transition: border-color 0.25s, background 0.25s, transform 0.25s;
+}
+.serv-card:hover { border-color: rgba(212,168,67,0.18); background: var(--card2); transform: translateY(-3px); }
+
+.serv-num { font-size: 0.6rem; color: var(--dim); letter-spacing: 1px; margin-bottom: 1.35rem; }
+.serv-ico {
+  width: 42px; height: 42px; border-radius: var(--r-pill);
+  background: var(--gold-dim); display: grid; place-items: center;
+  font-size: 1.2rem; margin-bottom: 1.1rem;
+}
+.serv-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.05rem; font-weight: 600; color: var(--white);
+  margin-bottom: 0.5rem; letter-spacing: -0.2px;
+}
+.serv-desc { font-size: 0.82rem; color: var(--sub); line-height: 1.7; }
+
+/* ─── WHY ─── */
+.why-wrap { display: grid; grid-template-columns: 340px 1fr; gap: 5rem; align-items: start; }
+.why-left { padding-top: 0.5rem; }
+
+.why-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;
+}
+.why-item {
+  background: var(--card); border: 1px solid var(--line);
+  border-radius: var(--r-card); padding: 2rem 1.75rem;
+  transition: background 0.2s, border-color 0.2s, transform 0.2s;
+}
+.why-item:hover { background: var(--card2); border-color: rgba(212,168,67,0.15); transform: translateY(-3px); }
+
+.why-n {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 3rem; font-weight: 700; color: rgba(212,168,67,0.1);
+  line-height: 1; margin-bottom: 0.85rem; letter-spacing: -2px;
+}
+.why-t {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.05rem; font-weight: 600; color: var(--white);
+  margin-bottom: 0.45rem; letter-spacing: -0.2px;
+}
+.why-d { font-size: 0.82rem; color: var(--sub); line-height: 1.7; }
+
+/* ─── CONTACT ─── */
+.contact-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; margin-top: 3rem; }
+
+.contact-rows { display: flex; flex-direction: column; gap: 0; }
+.c-row {
+  display: flex; align-items: flex-start; gap: 1.1rem;
+  padding: 1.4rem 0; border-bottom: 1px solid var(--line);
+}
+.c-row:first-child { padding-top: 0; }
+.c-row:last-child { border-bottom: none; }
+
+.c-ico {
+  width: 36px; height: 36px; border-radius: var(--r-pill);
+  background: var(--gold-dim); display: grid; place-items: center;
+  font-size: 0.95rem; flex-shrink: 0;
+}
+.c-lbl { font-size: 0.6rem; color: var(--dim); letter-spacing: 1px; text-transform: uppercase; }
+.c-val { font-size: 0.9rem; color: var(--white); font-weight: 400; margin-top: 0.25rem; line-height: 1.5; }
+.c-val small { display: block; font-size: 0.75rem; color: var(--sub); margin-top: 0.1rem; }
+.c-val a { color: var(--gold); text-decoration: none; transition: color 0.2s; }
+.c-val a:hover { color: var(--gold-lt); }
+
+/* FORM */
+.contact-form { display: flex; flex-direction: column; gap: 1rem; }
+.f-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.85rem; }
+.f-grp { display: flex; flex-direction: column; gap: 0.38rem; }
+.f-lbl { font-size: 0.6rem; color: var(--dim); letter-spacing: 1px; text-transform: uppercase; }
+
+.f-inp, .f-ta {
+  background: var(--card); border: 1px solid var(--line);
+  border-radius: var(--r-sm); padding: 0.82rem 1rem;
+  font-family: 'Inter', sans-serif; font-size: 0.86rem; color: var(--white);
+  outline: none; width: 100%;
+  transition: border-color 0.2s, background 0.2s;
+}
+.f-inp:focus, .f-ta:focus { border-color: rgba(212,168,67,0.32); background: var(--card2); }
+.f-inp::placeholder, .f-ta::placeholder { color: var(--dim); }
+.f-ta { resize: vertical; min-height: 95px; }
+
+.f-submit {
+  display: flex; align-items: center; justify-content: center; gap: 0.6rem;
+  background: var(--gold); color: #080809;
+  border: none; cursor: pointer;
+  padding: 0.88rem 2rem; border-radius: var(--r-pill);
+  font-family: 'Inter', sans-serif; font-size: 0.88rem; font-weight: 600;
+  transition: background 0.2s, box-shadow 0.2s, transform 0.15s;
+  margin-top: 0.25rem;
+}
+.f-submit:hover {
+  background: var(--gold-lt);
+  box-shadow: 0 8px 24px rgba(212,168,67,0.25);
+  transform: translateY(-2px);
+}
+.f-note { font-size: 0.7rem; color: var(--dim); margin-top: 0.65rem; line-height: 1.55; }
+
+/* ─── FOOTER ─── */
+footer {
+  background: var(--bg); border-top: 1px solid var(--line);
+  padding: 3.5rem 4.5rem 2.25rem;
+}
+.ft-top {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  padding-bottom: 2.5rem; border-bottom: 1px solid var(--line); margin-bottom: 1.75rem; gap: 3rem;
+}
+.ft-brand {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.2rem; font-weight: 600; color: var(--white); margin-bottom: 0.5rem;
+}
+.ft-brand em { font-style: italic; color: var(--gold); }
+.ft-tag { font-size: 0.78rem; color: var(--dim); max-width: 210px; line-height: 1.55; }
+.ft-cols { display: flex; gap: 4rem; }
+.ft-col-h { font-size: 0.6rem; color: var(--dim); letter-spacing: 1.2px; text-transform: uppercase; margin-bottom: 1rem; }
+.ft-list { list-style: none; display: flex; flex-direction: column; gap: 0.55rem; }
+.ft-list a { text-decoration: none; color: var(--sub); font-size: 0.82rem; transition: color 0.2s; }
+.ft-list a:hover { color: var(--gold); }
+.ft-bot { display: flex; justify-content: space-between; font-size: 0.67rem; color: var(--dim); letter-spacing: 0.2px; }
+
+/* ─── REVEAL ANIMATION ─── */
+.rv { opacity: 0; transform: translateY(14px); transition: opacity 0.5s ease, transform 0.5s ease; }
+.rv.in { opacity: 1; transform: translateY(0); }
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 1080px) {
+  .hero { grid-template-columns: 1fr; padding: 8rem 3rem 4rem; }
+  .hero-right { display: none; }
+  nav { padding: 1rem 2.5rem; }
+  .nav-links, .nav-tel { display: none; }
+  .sec { padding: 5rem 2.5rem; }
+  .brands-strip { padding: 1.5rem 2.5rem; gap: 1.5rem; }
+  .why-wrap { grid-template-columns: 1fr; gap: 2.5rem; }
+  .contact-wrap { grid-template-columns: 1fr; gap: 2.5rem; }
+  footer { padding: 3rem 2.5rem 2rem; }
+  .ft-top { flex-direction: column; gap: 2rem; }
+  .serv-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 680px) {
+  .hero h1 { font-size: 2.8rem; }
+  .why-grid { grid-template-columns: 1fr; }
+  .serv-grid { grid-template-columns: 1fr; }
+  .prod-top { flex-direction: column; align-items: flex-start; gap: 1rem; }
+  .f-row { grid-template-columns: 1fr; }
+  .ft-cols { flex-direction: column; gap: 2rem; }
+  .ft-bot { flex-direction: column; gap: 0.4rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">
+    <div class="logo-gem">M</div>
+    <span class="nav-wordmark">Mana<em>'s</em> Mobil</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#produktet">Produktet</a></li>
+    <li><a href="#sherbime">Shërbime</a></li>
+    <li><a href="#pse-ne">Pse Ne</a></li>
+    <li><a href="#kontakti">Kontakti</a></li>
+  </ul>
+  <div class="nav-end">
+    <span class="nav-tel">+383 49 750 777</span>
+    <button class="nav-btn" onclick="document.getElementById('kontakti').scrollIntoView({behavior:'smooth'})">Na Kontakto</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-kicker">
+      <div class="kicker-bar"></div>
+      <span class="kicker-text">Suharekë · Kosovë · Origjinal</span>
+    </div>
+    <h1>
+      Teknologjia<br>
+      më e re —<br>
+      <i>çmim real.</i>
+    </h1>
+    <p class="hero-p">iPhone, Samsung, Xiaomi dhe shumë më tepër. Të gjitha origjinale, me garanci ndërkombëtare. Dyqani juaj i besuar qysh prej ditës së parë.</p>
+    <div class="hero-btns">
+      <a href="#produktet" class="btn-gold">
+        Shiko Telefonat
+        <svg viewBox="0 0 16 16" fill="none" width="14" height="14"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <a href="tel:+38349750777" class="btn-outline">
+        <svg viewBox="0 0 16 16" fill="none" width="14" height="14"><path d="M2 3.5C2 2.67 2.67 2 3.5 2h1.47c.37 0 .7.25.81.6l.87 2.9a.84.84 0 01-.22.87L5.3 7.5c.9 1.7 2.5 3.3 4.2 4.2l1.13-1.13a.84.84 0 01.87-.22l2.9.87c.35.11.6.44.6.81V13.5c0 .83-.67 1.5-1.5 1.5C5.6 15 1 10.4 1 4.5c0-.83.67-1.5 1.5-1.5h.5z" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Na Thirr
+      </a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat">
+        <div class="stat-n">11.2<sup>K</sup></div>
+        <div class="stat-l">Ndjekës Instagram</div>
+      </div>
+      <div class="stat">
+        <div class="stat-n">1<sup>vit</sup></div>
+        <div class="stat-l">Garanci Ndërkombëtare</div>
+      </div>
+      <div class="stat">
+        <div class="stat-n">100<sup>+</sup></div>
+        <div class="stat-l">Modele në Stok</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div class="ph-card star">
+      <div class="ph-star-badge">🔥 Top</div>
+      <div class="ph-icon">
+        <svg viewBox="0 0 22 22" fill="none"><rect x="5" y="2" width="12" height="18" rx="3" stroke="currentColor" stroke-width="1.5"/><circle cx="11" cy="17" r="1" fill="currentColor"/></svg>
+      </div>
+      <div class="ph-info">
+        <div class="ph-make">Apple</div>
+        <div class="ph-model">iPhone 17 Pro Max</div>
+        <div class="ph-spec">256GB · E-SIM · Origjinal</div>
+      </div>
+      <div class="ph-price">1.089€</div>
+    </div>
+    <div class="ph-card">
+      <div class="ph-icon"><svg viewBox="0 0 22 22" fill="none"><rect x="5" y="2" width="12" height="18" rx="3" stroke="currentColor" stroke-width="1.5"/><circle cx="11" cy="17" r="1" fill="currentColor"/></svg></div>
+      <div class="ph-info">
+        <div class="ph-make">Apple</div>
+        <div class="ph-model">iPhone 17 Pro</div>
+        <div class="ph-spec">256GB · E-SIM</div>
+      </div>
+      <div class="ph-price">1.009€</div>
+    </div>
+    <div class="ph-card">
+      <div class="ph-icon"><svg viewBox="0 0 22 22" fill="none"><rect x="5" y="2" width="12" height="18" rx="3" stroke="currentColor" stroke-width="1.5"/><circle cx="11" cy="17" r="1" fill="currentColor"/></svg></div>
+      <div class="ph-info">
+        <div class="ph-make">Samsung</div>
+        <div class="ph-model">Galaxy A17 5G</div>
+        <div class="ph-spec">128GB · 6GB RAM · 5G</div>
+      </div>
+      <div class="ph-price">149€</div>
+    </div>
+    <div class="ph-card">
+      <div class="ph-icon"><svg viewBox="0 0 22 22" fill="none"><rect x="5" y="2" width="12" height="18" rx="3" stroke="currentColor" stroke-width="1.5"/><circle cx="11" cy="17" r="1" fill="currentColor"/></svg></div>
+      <div class="ph-info">
+        <div class="ph-make">Apple</div>
+        <div class="ph-model">iPhone 16 Pro</div>
+        <div class="ph-spec">128GB · Origjinal</div>
+      </div>
+      <div class="ph-price">899€</div>
+    </div>
+  </div>
+</section>
+
+<!-- BRANDS STRIP -->
+<div class="brands-strip">
+  <span class="strip-label">Brendet</span>
+  <div class="strip-sep"></div>
+  <div class="strip-chips">
+    <button class="brand-chip"><span class="b-dot" style="background:#888"></span>Apple</button>
+    <button class="brand-chip"><span class="b-dot" style="background:#1428A0"></span>Samsung</button>
+    <button class="brand-chip"><span class="b-dot" style="background:#FF6900"></span>Xiaomi</button>
+    <button class="brand-chip"><span class="b-dot" style="background:#1877F2"></span>Huawei</button>
+    <button class="brand-chip"><span class="b-dot" style="background:#E83E3E"></span>OnePlus</button>
+    <button class="brand-chip"><span class="b-dot" style="background:#7B2FBE"></span>Oppo</button>
+    <button class="brand-chip"><span class="b-dot" style="background:#2ECC71"></span>Google Pixel</button>
+  </div>
+</div>
+
+<!-- PRODUCTS -->
+<section class="sec" id="produktet">
+  <div class="prod-top">
+    <div>
+      <div class="s-kicker"><div class="s-kicker-bar"></div><span class="s-kicker-txt">Produktet</span></div>
+      <h2 class="s-title">Telefonat kryesorë</h2>
+    </div>
+    <div class="filter-row">
+      <button class="f-tab on">Të gjitha</button>
+      <button class="f-tab">iPhone</button>
+      <button class="f-tab">Samsung</button>
+      <button class="f-tab">Xiaomi</button>
+    </div>
+  </div>
+
+  <div class="prod-grid">
+    <div class="prod-card rv">
+      <span class="p-badge">🔥 Top</span>
+      <div class="p-icon-wrap"><svg viewBox="0 0 22 22" fill="none"><rect x="4" y="1.5" width="14" height="19" rx="3.5" stroke="currentColor" stroke-width="1.4"/><circle cx="11" cy="17.5" r="1.2" fill="currentColor"/></svg></div>
+      <div class="p-make">Apple</div>
+      <div class="p-name">iPhone 17 Pro Max</div>
+      <div class="p-tags"><span class="p-tag">256GB</span><span class="p-tag">E-SIM</span><span class="p-tag">Origjinal</span></div>
+      <div class="p-price-row">
+        <div class="p-price">1.089€</div>
+        <div class="p-warranty"><span class="w-dot"></span>1 vit garanci ndërkombëtare</div>
+      </div>
+      <button class="p-cta">Pyet për çmim →</button>
+    </div>
+
+    <div class="prod-card rv">
+      <div class="p-icon-wrap"><svg viewBox="0 0 22 22" fill="none"><rect x="4" y="1.5" width="14" height="19" rx="3.5" stroke="currentColor" stroke-width="1.4"/><circle cx="11" cy="17.5" r="1.2" fill="currentColor"/></svg></div>
+      <div class="p-make">Apple</div>
+      <div class="p-name">iPhone 17 Pro</div>
+      <div class="p-tags"><span class="p-tag">256GB</span><span class="p-tag">E-SIM</span><span class="p-tag">FC · CE</span></div>
+      <div class="p-price-row">
+        <div class="p-price">1.009€</div>
+        <div class="p-warranty"><span class="w-dot"></span>1 vit garanci ndërkombëtare</div>
+      </div>
+      <button class="p-cta">Pyet për çmim →</button>
+    </div>
+
+    <div class="prod-card rv">
+      <div class="p-icon-wrap"><svg viewBox="0 0 22 22" fill="none"><rect x="4" y="1.5" width="14" height="19" rx="3.5" stroke="currentColor" stroke-width="1.4"/><circle cx="11" cy="17.5" r="1.2" fill="currentColor"/></svg></div>
+      <div class="p-make">Apple</div>
+      <div class="p-name">iPhone 17</div>
+      <div class="p-tags"><span class="p-tag">256GB</span><span class="p-tag">E-SIM</span><span class="p-tag">Origjinal</span></div>
+      <div class="p-price-row">
+        <div class="p-price">899€</div>
+        <div class="p-warranty"><span class="w-dot"></span>1 vit garanci ndërkombëtare</div>
+      </div>
+      <button class="p-cta">Pyet për çmim →</button>
+    </div>
+
+    <div class="prod-card rv">
+      <span class="p-badge">💰 Çmim</span>
+      <div class="p-icon-wrap"><svg viewBox="0 0 22 22" fill="none"><rect x="4" y="1.5" width="14" height="19" rx="3.5" stroke="currentColor" stroke-width="1.4"/><circle cx="11" cy="17.5" r="1.2" fill="currentColor"/></svg></div>
+      <div class="p-make">Apple</div>
+      <div class="p-name">iPhone 11 Pro</div>
+      <div class="p-tags"><span class="p-tag">64GB</span><span class="p-tag">Refabrikuar</span></div>
+      <div class="p-price-row">
+        <div class="p-price">199€</div>
+        <div class="p-warranty"><span class="w-dot" style="background:#E8A020;"></span>6 muaj garanci</div>
+      </div>
+      <button class="p-cta">Pyet për çmim →</button>
+    </div>
+
+    <div class="prod-card rv">
+      <div class="p-icon-wrap"><svg viewBox="0 0 22 22" fill="none"><rect x="4" y="1.5" width="14" height="19" rx="3.5" stroke="currentColor" stroke-width="1.4"/><circle cx="11" cy="17.5" r="1.2" fill="currentColor"/></svg></div>
+      <div class="p-make">Samsung</div>
+      <div class="p-name">Galaxy A17 5G</div>
+      <div class="p-tags"><span class="p-tag">128GB</span><span class="p-tag">6GB RAM</span><span class="p-tag">5G</span></div>
+      <div class="p-price-row">
+        <div class="p-price">149€</div>
+        <div class="p-warranty"><span class="w-dot"></span>1 vit garanci</div>
+      </div>
+      <button class="p-cta">Pyet për çmim →</button>
+    </div>
+
+    <div class="prod-card rv">
+      <span class="p-badge">🆕 Ri</span>
+      <div class="p-icon-wrap"><svg viewBox="0 0 22 22" fill="none"><rect x="4" y="1.5" width="14" height="19" rx="3.5" stroke="currentColor" stroke-width="1.4"/><circle cx="11" cy="17.5" r="1.2" fill="currentColor"/></svg></div>
+      <div class="p-make">Samsung</div>
+      <div class="p-name">Galaxy A07</div>
+      <div class="p-tags"><span class="p-tag">64GB</span><span class="p-tag">4GB RAM</span></div>
+      <div class="p-price-row">
+        <div class="p-price">89€</div>
+        <div class="p-warranty"><span class="w-dot"></span>1 vit garanci</div>
+      </div>
+      <button class="p-cta">Pyet për çmim →</button>
+    </div>
+
+    <div class="prod-card rv">
+      <div class="p-icon-wrap"><svg viewBox="0 0 22 22" fill="none"><rect x="4" y="1.5" width="14" height="19" rx="3.5" stroke="currentColor" stroke-width="1.4"/><circle cx="11" cy="17.5" r="1.2" fill="currentColor"/></svg></div>
+      <div class="p-make">Apple</div>
+      <div class="p-name">iPhone 16 Pro Max</div>
+      <div class="p-tags"><span class="p-tag">256GB</span><span class="p-tag">E-SIM</span></div>
+      <div class="p-price-row">
+        <div class="p-price">1.099€</div>
+        <div class="p-warranty"><span class="w-dot"></span>1 vit garanci ndërkombëtare</div>
+      </div>
+      <button class="p-cta">Pyet për çmim →</button>
+    </div>
+
+    <div class="prod-card rv">
+      <div class="p-icon-wrap"><svg viewBox="0 0 22 22" fill="none"><rect x="4" y="1.5" width="14" height="19" rx="3.5" stroke="currentColor" stroke-width="1.4"/><circle cx="11" cy="17.5" r="1.2" fill="currentColor"/></svg></div>
+      <div class="p-make">Apple</div>
+      <div class="p-name">iPhone 15 Pro Max</div>
+      <div class="p-tags"><span class="p-tag">256GB</span><span class="p-tag">Origjinal</span></div>
+      <div class="p-price-row">
+        <div class="p-price">989€</div>
+        <div class="p-warranty"><span class="w-dot"></span>1 vit garanci ndërkombëtare</div>
+      </div>
+      <button class="p-cta">Pyet për çmim →</button>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="sec sec-alt" id="sherbime">
+  <div class="s-kicker"><div class="s-kicker-bar"></div><span class="s-kicker-txt">Shërbime</span></div>
+  <h2 class="s-title">Çfarë ofrojmë</h2>
+  <p class="s-sub">Kemi gjithçka që ju nevojitet — nga blerja deri te aksesori dhe këshillim teknik.</p>
+  <div class="serv-grid">
+    <div class="serv-card rv">
+      <div class="serv-num">01</div>
+      <div class="serv-ico">📦</div>
+      <div class="serv-name">Telefona Origjinalë</div>
+      <div class="serv-desc">Gjithë pajisjet tona janë 100% origjinale, me certifikim FC dhe CE. Direkt nga distributorët zyrtarë.</div>
+    </div>
+    <div class="serv-card rv">
+      <div class="serv-num">02</div>
+      <div class="serv-ico">🛡️</div>
+      <div class="serv-name">Garanci Ndërkombëtare</div>
+      <div class="serv-desc">1 vit garanci ndërkombëtare për të gjithë telefonat e rinj. Telefona të rifabrikuar me 6 muaj garanci.</div>
+    </div>
+    <div class="serv-card rv">
+      <div class="serv-num">03</div>
+      <div class="serv-ico">🔁</div>
+      <div class="serv-name">Këmbim Telefoni</div>
+      <div class="serv-desc">Shitni telefonin tuaj të vjetër dhe merrni model të ri me çmim preferencial. Vlerësim i drejtë dhe transparent.</div>
+    </div>
+    <div class="serv-card rv">
+      <div class="serv-num">04</div>
+      <div class="serv-ico">🎧</div>
+      <div class="serv-name">Aksesori & Mbrojtje</div>
+      <div class="serv-desc">Mbulesë, xhama mbrojtëse, karikues origjinalë, kufje — gjithçka nën një çati.</div>
+    </div>
+    <div class="serv-card rv">
+      <div class="serv-num">05</div>
+      <div class="serv-ico">📲</div>
+      <div class="serv-name">Instalim & Konfigurim</div>
+      <div class="serv-desc">Konfigurojmë telefonin tuaj falas — transferim datash, instalim aplikacionesh, E-SIM setup.</div>
+    </div>
+    <div class="serv-card rv">
+      <div class="serv-num">06</div>
+      <div class="serv-ico">💬</div>
+      <div class="serv-name">Këshillim Teknik</div>
+      <div class="serv-desc">Nuk dini çfarë modeli t'ju përshtatet? Ekipi ynë ju ndihmon të bëni zgjedhjen e duhur.</div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY -->
+<section class="sec" id="pse-ne">
+  <div class="why-wrap">
+    <div class="why-left">
+      <div class="s-kicker"><div class="s-kicker-bar"></div><span class="s-kicker-txt">Pse Ne</span></div>
+      <h2 class="s-title">Dyqani juaj i besuar</h2>
+      <p class="s-sub">Çfarë na bën të ndryshëm. Besimi fitohet çdo ditë, jo vetëm gjatë blerjes.</p>
+      <div style="margin-top:2.5rem;">
+        <a href="#kontakti" class="btn-gold" style="display:inline-flex;">
+          Na Vizitoni
+          <svg viewBox="0 0 16 16" fill="none" width="14" height="14"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+    </div>
+    <div class="why-grid">
+      <div class="why-item rv">
+        <div class="why-n">01</div>
+        <div class="why-t">Çmime transparente</div>
+        <div class="why-d">Asnjë kosto e fshehur. Çmimi që shihni është çmimi final — pa surpriza në arkë.</div>
+      </div>
+      <div class="why-item rv">
+        <div class="why-n">02</div>
+        <div class="why-t">Stok i madh</div>
+        <div class="why-d">Mbi 100+ modele gjithnjë të disponueshme. iPhone 11 deri te 17 Pro Max — i gjeni te ne.</div>
+      </div>
+      <div class="why-item rv">
+        <div class="why-n">03</div>
+        <div class="why-t">Origjinalitet i garantuar</div>
+        <div class="why-d">Çdo pajisje me certifikim FC/CE dhe serial number të verifikueshëm drejtpërdrejt te Apple/Samsung.</div>
+      </div>
+      <div class="why-item rv">
+        <div class="why-n">04</div>
+        <div class="why-t">Shërbim afatgjatë</div>
+        <div class="why-d">Jemi këtu edhe pas blerjes. Garancia jonë nuk është vetëm letër — ju mbështesim gjithmonë.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="sec sec-alt" id="kontakti">
+  <div class="s-kicker"><div class="s-kicker-bar"></div><span class="s-kicker-txt">Kontakti</span></div>
+  <h2 class="s-title">Na gjeni çdo ditë</h2>
+  <p class="s-sub">Jemi të disponueshëm nga e hëna deri të shtunën. Na vizitoni ose na kontaktoni direkt.</p>
+  <div class="contact-wrap">
+    <div class="contact-rows">
+      <div class="c-row rv">
+        <div class="c-ico">📍</div>
+        <div>
+          <div class="c-lbl">Adresa</div>
+          <div class="c-val">Rr. Brigada 123, Suharekë<small>Përballë Komunës</small></div>
+        </div>
+      </div>
+      <div class="c-row rv">
+        <div class="c-ico">📞</div>
+        <div>
+          <div class="c-lbl">Telefon</div>
+          <div class="c-val"><a href="tel:+38349750777">+383 (0)49 750 777</a></div>
+        </div>
+      </div>
+      <div class="c-row rv">
+        <div class="c-ico">🕐</div>
+        <div>
+          <div class="c-lbl">Orari i punës</div>
+          <div class="c-val">E Hënë – E Shtunë<small>09:00 – 20:00</small></div>
+        </div>
+      </div>
+      <div class="c-row rv">
+        <div class="c-ico">📸</div>
+        <div>
+          <div class="c-lbl">Instagram</div>
+          <div class="c-val"><a href="https://instagram.com/mobilshopmana.suhareke" target="_blank">@mobilshopmana.suhareke</a></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="contact-form rv">
+      <div class="f-row">
+        <div class="f-grp">
+          <label class="f-lbl">Emri juaj</label>
+          <input type="text" class="f-inp" placeholder="p.sh. Ardit Gashi">
+        </div>
+        <div class="f-grp">
+          <label class="f-lbl">Numri i telefonit</label>
+          <input type="tel" class="f-inp" placeholder="+383 4X XXX XXX">
+        </div>
+      </div>
+      <div class="f-grp">
+        <label class="f-lbl">Modeli që ju intereson</label>
+        <input type="text" class="f-inp" placeholder="p.sh. iPhone 17 Pro Max 256GB">
+      </div>
+      <div class="f-grp">
+        <label class="f-lbl">Mesazhi (opsional)</label>
+        <textarea class="f-ta" placeholder="Çfarë dëshironi të dini?"></textarea>
+      </div>
+      <button class="f-submit" id="fsub">
+        Dërgo Kërkesën
+        <svg viewBox="0 0 16 16" fill="none" width="15" height="15"><path d="M2 8h12M10 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <p class="f-note">Do t'ju kontaktojmë brenda pak orësh. Mund të na dërgoni mesazh edhe direkt në Instagram.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="ft-top">
+    <div>
+      <div class="ft-brand">Mana<em>'s</em> Mobil Shop</div>
+      <div class="ft-tag">Teknologjia më e re me çmim real — Suharekë, Kosovë.</div>
+    </div>
+    <div class="ft-cols">
+      <div>
+        <div class="ft-col-h">Navigimi</div>
+        <ul class="ft-list">
+          <li><a href="#produktet">Produktet</a></li>
+          <li><a href="#sherbime">Shërbime</a></li>
+          <li><a href="#pse-ne">Pse Ne</a></li>
+          <li><a href="#kontakti">Kontakti</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="ft-col-h">Kontakti</div>
+        <ul class="ft-list">
+          <li><a href="tel:+38349750777">+383 49 750 777</a></li>
+          <li><a href="https://instagram.com/mobilshopmana.suhareke" target="_blank">@mobilshopmana</a></li>
+          <li><a href="#">Rr. Brigada 123</a></li>
+          <li><a href="#">Suharekë, Kosovë</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="ft-bot">
+    <span>© 2025 Mana's Mobil Shop · Suharekë, Kosovë</span>
+    <span>Të gjitha të drejtat e rezervuara</span>
+  </div>
+</footer>
+
+<script>
+// Tabs
+document.querySelectorAll('.f-tab').forEach(t => {
+  t.addEventListener('click', () => {
+    document.querySelectorAll('.f-tab').forEach(x => x.classList.remove('on'));
+    t.classList.add('on');
+  });
+});
+
+// Reveal
+const io = new IntersectionObserver((entries) => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) {
+      setTimeout(() => e.target.classList.add('in'), i * 55);
+      io.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.08 });
+document.querySelectorAll('.rv').forEach(el => io.observe(el));
+
+// Nav shrink
+window.addEventListener('scroll', () => {
+  const n = document.querySelector('nav');
+  n.style.padding = window.scrollY > 50 ? '0.75rem 4.5rem' : '1.1rem 4.5rem';
+});
+
+// Form
+document.getElementById('fsub').addEventListener('click', function() {
+  const nm = document.querySelector('.f-inp').value;
+  const ph = document.querySelector('input[type="tel"]').value;
+  if (!nm || !ph) {
+    this.textContent = '⚠ Plotësoni emrin dhe telefonin';
+    setTimeout(() => { this.innerHTML = 'Dërgo Kërkesën <svg viewBox="0 0 16 16" fill="none" width="15" height="15"><path d="M2 8h12M10 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>'; }, 2200);
+    return;
+  }
+  this.textContent = '✓ Kërkesa u dërgua!';
+  this.style.background = '#2ECC71';
+  setTimeout(() => {
+    this.innerHTML = 'Dërgo Kërkesën <svg viewBox="0 0 16 16" fill="none" width="15" height="15"><path d="M2 8h12M10 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+    this.style.background = '';
+  }, 3000);
+});
+</script>
+</body>
+</html>
