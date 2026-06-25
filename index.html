@@ -1,0 +1,951 @@
+<!DOCTYPE html>
+<html lang="sq">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mana's Mobil Shop – Suharekë</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --gold: #FFD700;
+    --gold-dim: #C9A800;
+    --gold-glow: rgba(255,215,0,0.15);
+    --bg: #08080E;
+    --bg2: #0F0F1A;
+    --card: #12121F;
+    --card2: #1A1A2E;
+    --border: rgba(255,215,0,0.12);
+    --text: #F0F0F5;
+    --muted: #6B6B8A;
+    --white: #ffffff;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.2rem 4rem;
+    background: rgba(8,8,14,0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo {
+    display: flex; align-items: center; gap: 0.75rem;
+  }
+  .logo-ring {
+    width: 42px; height: 42px; border-radius: 50%;
+    background: conic-gradient(from 0deg, #FFD700, #FF6B00, #FF0080, #FFD700);
+    display: flex; align-items: center; justify-content: center;
+    animation: spin 6s linear infinite;
+  }
+  .logo-inner {
+    width: 34px; height: 34px; border-radius: 50%;
+    background: var(--bg);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Syne', sans-serif;
+    font-size: 0.65rem; font-weight: 800;
+    color: var(--gold);
+    letter-spacing: -0.5px;
+    line-height: 1.1;
+    text-align: center;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .nav-brand {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.1rem; font-weight: 800;
+    color: var(--white);
+    letter-spacing: -0.3px;
+  }
+  .nav-brand span { color: var(--gold); }
+  .nav-links {
+    display: flex; gap: 2.5rem; list-style: none;
+  }
+  .nav-links a {
+    text-decoration: none;
+    color: var(--muted);
+    font-size: 0.875rem; font-weight: 500;
+    letter-spacing: 0.3px;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--gold); }
+  .nav-cta {
+    background: var(--gold);
+    color: #000;
+    border: none; cursor: pointer;
+    padding: 0.6rem 1.5rem;
+    border-radius: 100px;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.875rem; font-weight: 600;
+    transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+  }
+  .nav-cta:hover {
+    background: #FFC800;
+    transform: translateY(-1px);
+    box-shadow: 0 8px 24px rgba(255,215,0,0.3);
+  }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex; align-items: center;
+    padding: 8rem 4rem 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 60% 50% at 70% 50%, rgba(255,215,0,0.06) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 60% at 20% 80%, rgba(120,80,255,0.05) 0%, transparent 60%);
+  }
+  .hero-grid {
+    position: absolute; inset: 0; opacity: 0.03;
+    background-image: linear-gradient(var(--gold) 1px, transparent 1px),
+      linear-gradient(90deg, var(--gold) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+  .hero-content {
+    position: relative; z-index: 2;
+    max-width: 580px;
+  }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    background: rgba(255,215,0,0.08);
+    border: 1px solid rgba(255,215,0,0.2);
+    padding: 0.35rem 1rem;
+    border-radius: 100px;
+    font-size: 0.78rem; font-weight: 500;
+    color: var(--gold);
+    letter-spacing: 0.5px;
+    margin-bottom: 1.5rem;
+  }
+  .badge-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--gold);
+    animation: pulse 1.5s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.7); }
+  }
+  .hero h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(2.8rem, 5vw, 4.2rem);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -1.5px;
+    margin-bottom: 1.25rem;
+  }
+  .hero h1 .accent { color: var(--gold); }
+  .hero p {
+    font-size: 1.05rem; color: var(--muted);
+    line-height: 1.7;
+    margin-bottom: 2.5rem;
+    max-width: 460px;
+  }
+  .hero-actions {
+    display: flex; gap: 1rem; flex-wrap: wrap;
+  }
+  .btn-primary {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    background: var(--gold);
+    color: #000;
+    border: none; cursor: pointer;
+    padding: 0.9rem 2rem;
+    border-radius: 100px;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.95rem; font-weight: 600;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+  }
+  .btn-primary:hover {
+    background: #FFC800;
+    transform: translateY(-2px);
+    box-shadow: 0 12px 32px rgba(255,215,0,0.35);
+  }
+  .btn-secondary {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    background: transparent;
+    color: var(--text);
+    border: 1px solid var(--border);
+    cursor: pointer;
+    padding: 0.9rem 2rem;
+    border-radius: 100px;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.95rem; font-weight: 500;
+    text-decoration: none;
+    transition: border-color 0.2s, background 0.2s, transform 0.15s;
+  }
+  .btn-secondary:hover {
+    border-color: rgba(255,215,0,0.4);
+    background: rgba(255,215,0,0.05);
+    transform: translateY(-2px);
+  }
+  .hero-stats {
+    display: flex; gap: 2.5rem;
+    margin-top: 3.5rem;
+    padding-top: 2.5rem;
+    border-top: 1px solid var(--border);
+  }
+  .stat-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.6rem; font-weight: 800;
+    color: var(--white);
+    letter-spacing: -0.5px;
+  }
+  .stat-num span { color: var(--gold); }
+  .stat-label { font-size: 0.78rem; color: var(--muted); margin-top: 0.2rem; }
+  .hero-phones {
+    position: absolute; right: 4rem; top: 50%; transform: translateY(-50%);
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.25rem;
+    z-index: 2;
+  }
+  .hero-phone-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 1.25rem 1rem;
+    text-align: center;
+    backdrop-filter: blur(10px);
+    transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+    cursor: pointer;
+  }
+  .hero-phone-card:hover {
+    transform: translateY(-6px);
+    border-color: rgba(255,215,0,0.3);
+    box-shadow: 0 16px 40px rgba(255,215,0,0.1);
+  }
+  .hero-phone-card .emoji { font-size: 2.2rem; margin-bottom: 0.6rem; display: block; }
+  .hero-phone-card .model {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.78rem; font-weight: 700;
+    color: var(--white); letter-spacing: -0.2px;
+  }
+  .hero-phone-card .price {
+    font-size: 0.9rem; font-weight: 700;
+    color: var(--gold); margin-top: 0.3rem;
+  }
+  .hero-phone-card .storage {
+    font-size: 0.7rem; color: var(--muted); margin-top: 0.15rem;
+  }
+  .hero-phone-card:nth-child(2) { transform: translateY(20px); }
+  .hero-phone-card:nth-child(2):hover { transform: translateY(14px); }
+  .hero-phone-card:nth-child(4) { transform: translateY(20px); }
+  .hero-phone-card:nth-child(4):hover { transform: translateY(14px); }
+
+  /* ── SECTIONS ── */
+  section { padding: 6rem 4rem; }
+  .section-label {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    font-size: 0.75rem; font-weight: 600;
+    color: var(--gold); letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 0.75rem;
+  }
+  .section-label::before {
+    content: ''; display: block;
+    width: 20px; height: 1px; background: var(--gold);
+  }
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(1.8rem, 3vw, 2.5rem);
+    font-weight: 800; letter-spacing: -0.8px;
+    color: var(--white);
+    margin-bottom: 0.75rem;
+  }
+  .section-sub { font-size: 1rem; color: var(--muted); max-width: 500px; line-height: 1.6; }
+
+  /* ── BRANDS ── */
+  .brands-section { background: var(--bg2); }
+  .brands-track {
+    display: flex; gap: 1rem;
+    margin-top: 2.5rem; flex-wrap: wrap;
+  }
+  .brand-pill {
+    display: inline-flex; align-items: center; gap: 0.6rem;
+    background: var(--card);
+    border: 1px solid var(--border);
+    padding: 0.6rem 1.5rem;
+    border-radius: 100px;
+    font-size: 0.9rem; font-weight: 600;
+    color: var(--text);
+    transition: border-color 0.2s, background 0.2s, transform 0.2s;
+    cursor: pointer;
+  }
+  .brand-pill:hover {
+    border-color: rgba(255,215,0,0.35);
+    background: rgba(255,215,0,0.05);
+    transform: translateY(-2px);
+    color: var(--white);
+  }
+  .brand-pill .dot { width: 8px; height: 8px; border-radius: 50%; }
+
+  /* ── PRODUCTS ── */
+  .products-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 2.5rem; }
+  .filter-tabs {
+    display: flex; gap: 0.5rem;
+  }
+  .tab {
+    background: var(--card);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    padding: 0.45rem 1.2rem;
+    border-radius: 100px;
+    font-size: 0.82rem; font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .tab.active, .tab:hover {
+    background: var(--gold);
+    color: #000;
+    border-color: var(--gold);
+    font-weight: 600;
+  }
+  .products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1.25rem;
+  }
+  .product-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 1.5rem;
+    position: relative; overflow: hidden;
+    transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+    cursor: pointer;
+  }
+  .product-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold-dim), transparent);
+    opacity: 0; transition: opacity 0.3s;
+  }
+  .product-card:hover {
+    transform: translateY(-6px);
+    border-color: rgba(255,215,0,0.25);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,215,0,0.08);
+  }
+  .product-card:hover::before { opacity: 1; }
+  .product-badge {
+    position: absolute; top: 1rem; right: 1rem;
+    background: rgba(255,215,0,0.12);
+    border: 1px solid rgba(255,215,0,0.25);
+    color: var(--gold);
+    font-size: 0.65rem; font-weight: 700;
+    padding: 0.2rem 0.6rem;
+    border-radius: 100px; letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+  .product-icon {
+    font-size: 2.8rem; margin-bottom: 1rem; display: block; text-align: center;
+  }
+  .product-brand { font-size: 0.72rem; color: var(--muted); letter-spacing: 0.5px; text-transform: uppercase; }
+  .product-name {
+    font-family: 'Syne', sans-serif;
+    font-size: 1rem; font-weight: 700;
+    color: var(--white); letter-spacing: -0.3px;
+    margin-top: 0.2rem; margin-bottom: 0.5rem;
+  }
+  .product-specs {
+    display: flex; gap: 0.4rem; flex-wrap: wrap; margin-bottom: 1rem;
+  }
+  .spec-tag {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.07);
+    color: var(--muted);
+    font-size: 0.68rem; padding: 0.2rem 0.55rem;
+    border-radius: 4px;
+  }
+  .product-price {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.4rem; font-weight: 800;
+    color: var(--gold); letter-spacing: -0.5px;
+  }
+  .product-warranty {
+    font-size: 0.7rem; color: var(--muted); margin-top: 0.3rem;
+  }
+  .product-cta {
+    width: 100%; margin-top: 1.1rem;
+    background: rgba(255,215,0,0.08);
+    border: 1px solid rgba(255,215,0,0.2);
+    color: var(--gold);
+    padding: 0.65rem;
+    border-radius: 100px;
+    font-size: 0.82rem; font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.15s;
+    font-family: 'Inter', sans-serif;
+  }
+  .product-cta:hover {
+    background: var(--gold);
+    color: #000;
+    transform: translateY(-1px);
+  }
+
+  /* ── SERVICES ── */
+  .services-section { background: var(--bg2); }
+  .services-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1.25rem; margin-top: 2.5rem;
+  }
+  .service-card {
+    background: var(--card2);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 2rem 1.75rem;
+    transition: transform 0.3s, border-color 0.3s;
+  }
+  .service-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(255,215,0,0.25);
+  }
+  .service-icon {
+    width: 48px; height: 48px; border-radius: 12px;
+    background: rgba(255,215,0,0.1);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.4rem; margin-bottom: 1.25rem;
+  }
+  .service-name {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.05rem; font-weight: 700;
+    color: var(--white); margin-bottom: 0.5rem;
+  }
+  .service-desc { font-size: 0.875rem; color: var(--muted); line-height: 1.65; }
+
+  /* ── WHY US ── */
+  .why-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 1px; margin-top: 3rem;
+    border: 1px solid var(--border);
+    border-radius: 20px; overflow: hidden;
+  }
+  .why-item {
+    background: var(--card);
+    padding: 2.5rem 2rem;
+    border: 1px solid var(--border);
+    transition: background 0.3s;
+  }
+  .why-item:hover { background: var(--card2); }
+  .why-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 2.5rem; font-weight: 800;
+    color: rgba(255,215,0,0.15);
+    margin-bottom: 0.75rem;
+  }
+  .why-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.1rem; font-weight: 700;
+    color: var(--white); margin-bottom: 0.5rem;
+  }
+  .why-desc { font-size: 0.875rem; color: var(--muted); line-height: 1.65; }
+
+  /* ── CONTACT ── */
+  .contact-section { background: var(--bg2); }
+  .contact-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; margin-top: 3rem;
+  }
+  .contact-info { display: flex; flex-direction: column; gap: 1.5rem; }
+  .contact-item {
+    display: flex; align-items: flex-start; gap: 1rem;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 1.25rem 1.5rem;
+    transition: border-color 0.2s;
+  }
+  .contact-item:hover { border-color: rgba(255,215,0,0.25); }
+  .contact-item-icon {
+    width: 40px; height: 40px; border-radius: 10px;
+    background: rgba(255,215,0,0.1);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.1rem; flex-shrink: 0;
+  }
+  .contact-item-label { font-size: 0.72rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; }
+  .contact-item-value { font-size: 0.95rem; color: var(--white); font-weight: 500; margin-top: 0.15rem; }
+  .contact-form { display: flex; flex-direction: column; gap: 1rem; }
+  .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
+  .form-label { font-size: 0.78rem; color: var(--muted); font-weight: 500; letter-spacing: 0.3px; }
+  .form-input, .form-textarea {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 0.9rem 1.1rem;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem; color: var(--white);
+    outline: none;
+    transition: border-color 0.2s, background 0.2s;
+    width: 100%;
+  }
+  .form-input:focus, .form-textarea:focus {
+    border-color: rgba(255,215,0,0.4);
+    background: rgba(255,215,0,0.03);
+  }
+  .form-input::placeholder, .form-textarea::placeholder { color: var(--muted); }
+  .form-textarea { resize: vertical; min-height: 110px; }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--bg);
+    border-top: 1px solid var(--border);
+    padding: 3rem 4rem 2rem;
+  }
+  .footer-inner {
+    display: flex; justify-content: space-between; align-items: center;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 2rem;
+  }
+  .footer-logo {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.2rem; font-weight: 800;
+    color: var(--white);
+  }
+  .footer-logo span { color: var(--gold); }
+  .footer-links { display: flex; gap: 2rem; }
+  .footer-links a {
+    text-decoration: none; color: var(--muted);
+    font-size: 0.875rem; transition: color 0.2s;
+  }
+  .footer-links a:hover { color: var(--gold); }
+  .footer-bottom {
+    display: flex; justify-content: space-between;
+    font-size: 0.78rem; color: var(--muted);
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 1024px) {
+    .hero-phones { display: none; }
+    nav { padding: 1.1rem 2rem; }
+    .nav-links { display: none; }
+    section { padding: 4rem 2rem; }
+    .hero { padding: 7rem 2rem 4rem; }
+    .why-grid { grid-template-columns: 1fr; }
+    .contact-grid { grid-template-columns: 1fr; }
+    footer { padding: 2.5rem 2rem; }
+    .footer-inner { flex-direction: column; gap: 1.5rem; align-items: flex-start; }
+  }
+
+  @media (max-width: 640px) {
+    .hero h1 { font-size: 2.4rem; }
+    .hero-actions { flex-direction: column; }
+    .hero-stats { gap: 1.5rem; flex-wrap: wrap; }
+    .products-header { flex-direction: column; align-items: flex-start; gap: 1rem; }
+    .footer-bottom { flex-direction: column; gap: 0.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">
+    <div class="logo-ring">
+      <div class="logo-inner">M·S</div>
+    </div>
+    <span class="nav-brand">Mana<span>'s</span> Mobil</span>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#produktet">Produktet</a></li>
+    <li><a href="#sherbime">Shërbime</a></li>
+    <li><a href="#pse-ne">Pse Ne</a></li>
+    <li><a href="#kontakti">Kontakti</a></li>
+  </ul>
+  <button class="nav-cta" onclick="document.getElementById('kontakti').scrollIntoView({behavior:'smooth'})">Na Kontakto</button>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <div class="hero-badge">
+      <div class="badge-dot"></div>
+      Suharekë · Telefona Origjinal
+    </div>
+    <h1>Teknologjia<br>më e re,<br><span class="accent">çmim real.</span></h1>
+    <p>iPhone, Samsung, Xiaomi dhe shumë më tepër — të gjitha origjinal, me garanci ndërkombëtare. Dyqani juaj i besuar nga Suhareka.</p>
+    <div class="hero-actions">
+      <a href="#produktet" class="btn-primary">
+        <span>Shiko Telefonat</span>
+        <span>→</span>
+      </a>
+      <a href="#kontakti" class="btn-secondary">
+        <span>📞</span>
+        <span>Na Thirr</span>
+      </a>
+    </div>
+    <div class="hero-stats">
+      <div>
+        <div class="stat-num">11.2<span>K</span></div>
+        <div class="stat-label">Ndjekës Instagram</div>
+      </div>
+      <div>
+        <div class="stat-num">1<span>vit</span></div>
+        <div class="stat-label">Garanci Ndërkombëtare</div>
+      </div>
+      <div>
+        <div class="stat-num">100<span>+</span></div>
+        <div class="stat-label">Modele në Stok</div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-phones">
+    <div class="hero-phone-card">
+      <span class="emoji">📱</span>
+      <div class="model">iPhone 17 Pro Max</div>
+      <div class="price">1.089€</div>
+      <div class="storage">256GB · E-SIM</div>
+    </div>
+    <div class="hero-phone-card">
+      <span class="emoji">📱</span>
+      <div class="model">iPhone 17 Pro</div>
+      <div class="price">1.009€</div>
+      <div class="storage">256GB · E-SIM</div>
+    </div>
+    <div class="hero-phone-card">
+      <span class="emoji">📱</span>
+      <div class="model">Galaxy A17</div>
+      <div class="price">139€</div>
+      <div class="storage">128GB · 5G</div>
+    </div>
+    <div class="hero-phone-card">
+      <span class="emoji">📱</span>
+      <div class="model">iPhone 16 Pro</div>
+      <div class="price">від 899€</div>
+      <div class="storage">128GB</div>
+    </div>
+  </div>
+</section>
+
+<!-- BRANDS -->
+<section class="brands-section" id="produktet">
+  <div class="section-label">Brendet</div>
+  <h2 class="section-title">Gjithçka në një vend</h2>
+  <p class="section-sub">Kemi stok nga brendet kryesore botërore — të gjitha origjinale dhe me certifikim.</p>
+  <div class="brands-track">
+    <div class="brand-pill"><span class="dot" style="background:#666"></span> Apple</div>
+    <div class="brand-pill"><span class="dot" style="background:#1428A0"></span> Samsung</div>
+    <div class="brand-pill"><span class="dot" style="background:#FF6900"></span> Xiaomi</div>
+    <div class="brand-pill"><span class="dot" style="background:#1877F2"></span> Huawei</div>
+    <div class="brand-pill"><span class="dot" style="background:#E83E3E"></span> OnePlus</div>
+    <div class="brand-pill"><span class="dot" style="background:#7B2FBE"></span> Oppo</div>
+    <div class="brand-pill"><span class="dot" style="background:#2ECC71"></span> Google Pixel</div>
+  </div>
+</section>
+
+<!-- PRODUCTS -->
+<section style="padding: 5rem 4rem;">
+  <div class="products-header">
+    <div>
+      <div class="section-label">Produktet</div>
+      <h2 class="section-title">Telefonat kryesorë</h2>
+    </div>
+    <div class="filter-tabs">
+      <button class="tab active">Të gjitha</button>
+      <button class="tab">iPhone</button>
+      <button class="tab">Samsung</button>
+      <button class="tab">Xiaomi</button>
+    </div>
+  </div>
+  <div class="products-grid">
+
+    <div class="product-card">
+      <span class="product-badge">🔥 TOP</span>
+      <span class="product-icon">📱</span>
+      <div class="product-brand">Apple</div>
+      <div class="product-name">iPhone 17 Pro Max</div>
+      <div class="product-specs">
+        <span class="spec-tag">256GB</span>
+        <span class="spec-tag">E-SIM</span>
+        <span class="spec-tag">Origjinal</span>
+      </div>
+      <div class="product-price">1.089€</div>
+      <div class="product-warranty">✓ 1 vit garanci ndërkombëtare</div>
+      <button class="product-cta">Pyet për çmim →</button>
+    </div>
+
+    <div class="product-card">
+      <span class="product-icon">📱</span>
+      <div class="product-brand">Apple</div>
+      <div class="product-name">iPhone 17 Pro</div>
+      <div class="product-specs">
+        <span class="spec-tag">256GB</span>
+        <span class="spec-tag">E-SIM</span>
+        <span class="spec-tag">FC · CE</span>
+      </div>
+      <div class="product-price">1.009€</div>
+      <div class="product-warranty">✓ 1 vit garanci ndërkombëtare</div>
+      <button class="product-cta">Pyet për çmim →</button>
+    </div>
+
+    <div class="product-card">
+      <span class="product-icon">📱</span>
+      <div class="product-brand">Apple</div>
+      <div class="product-name">iPhone 17</div>
+      <div class="product-specs">
+        <span class="spec-tag">256GB</span>
+        <span class="spec-tag">E-SIM</span>
+        <span class="spec-tag">Origjinal</span>
+      </div>
+      <div class="product-price">899€</div>
+      <div class="product-warranty">✓ 1 vit garanci ndërkombëtare</div>
+      <button class="product-cta">Pyet për çmim →</button>
+    </div>
+
+    <div class="product-card">
+      <span class="product-badge">💰 ÇMIM</span>
+      <span class="product-icon">📱</span>
+      <div class="product-brand">Apple</div>
+      <div class="product-name">iPhone 11 Pro</div>
+      <div class="product-specs">
+        <span class="spec-tag">64GB</span>
+        <span class="spec-tag">Refabrikuar</span>
+      </div>
+      <div class="product-price">199€</div>
+      <div class="product-warranty">✓ 6 muaj garanci</div>
+      <button class="product-cta">Pyet për çmim →</button>
+    </div>
+
+    <div class="product-card">
+      <span class="product-icon">📱</span>
+      <div class="product-brand">Samsung</div>
+      <div class="product-name">Galaxy A17 5G</div>
+      <div class="product-specs">
+        <span class="spec-tag">128GB</span>
+        <span class="spec-tag">6RAM</span>
+        <span class="spec-tag">5G</span>
+      </div>
+      <div class="product-price">149€</div>
+      <div class="product-warranty">✓ 1 vit garanci</div>
+      <button class="product-cta">Pyet për çmim →</button>
+    </div>
+
+    <div class="product-card">
+      <span class="product-badge">🆕 RI</span>
+      <span class="product-icon">📱</span>
+      <div class="product-brand">Samsung</div>
+      <div class="product-name">Galaxy A07</div>
+      <div class="product-specs">
+        <span class="spec-tag">64GB</span>
+        <span class="spec-tag">4RAM</span>
+      </div>
+      <div class="product-price">89€</div>
+      <div class="product-warranty">✓ 1 vit garanci</div>
+      <button class="product-cta">Pyet për çmim →</button>
+    </div>
+
+    <div class="product-card">
+      <span class="product-icon">📱</span>
+      <div class="product-brand">Apple</div>
+      <div class="product-name">iPhone 16 Pro Max</div>
+      <div class="product-specs">
+        <span class="spec-tag">256GB</span>
+        <span class="spec-tag">E-SIM</span>
+      </div>
+      <div class="product-price">1.099€</div>
+      <div class="product-warranty">✓ 1 vit garanci ndërkombëtare</div>
+      <button class="product-cta">Pyet për çmim →</button>
+    </div>
+
+    <div class="product-card">
+      <span class="product-icon">📱</span>
+      <div class="product-brand">Apple</div>
+      <div class="product-name">iPhone 15 Pro Max</div>
+      <div class="product-specs">
+        <span class="spec-tag">256GB</span>
+        <span class="spec-tag">Origjinal</span>
+      </div>
+      <div class="product-price">989€</div>
+      <div class="product-warranty">✓ 1 vit garanci ndërkombëtare</div>
+      <button class="product-cta">Pyet për çmim →</button>
+    </div>
+
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="services-section" id="sherbime">
+  <div class="section-label">Shërbime</div>
+  <h2 class="section-title">Çfarë ofrojmë</h2>
+  <p class="section-sub">Kemi gjithçka që ju nevojitet — nga blerja deri te aksesori dhe këshillim teknik.</p>
+  <div class="services-grid">
+    <div class="service-card">
+      <div class="service-icon">📦</div>
+      <div class="service-name">Telefona Origjinalë</div>
+      <div class="service-desc">Gjithë pajisjet tona janë 100% origjinale, me certifikim FC dhe CE. Direkt nga distributorët zyrtarë.</div>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🛡️</div>
+      <div class="service-name">Garanci Ndërkombëtare</div>
+      <div class="service-desc">1 vit garanci ndërkombëtare për të gjithë telefonat e rinj. Telefona të rifabrikuar me 6 muaj garanci.</div>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🔁</div>
+      <div class="service-name">Këmbim Telefoni</div>
+      <div class="service-desc">Shitni telefonin tuaj të vjetër dhe merrni model të ri me çmim preferencial. Vlerësim i drejtë dhe transparent.</div>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🎧</div>
+      <div class="service-name">Aksesori & Mbrojtje</div>
+      <div class="service-desc">Mbulesë, xhama mbrojtëse, karikues origjinalë, kufje — gjithçka për telefonin tuaj nën një çati.</div>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">📲</div>
+      <div class="service-name">Instalim & Konfigurim</div>
+      <div class="service-desc">Konfigurojmë telefonin tuaj falas — transferim datash, instalim aplikacionesh, E-SIM setup.</div>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">💬</div>
+      <div class="service-name">Këshillim Teknik</div>
+      <div class="service-desc">Nuk dini çfarë modeli t'ju përshtatet? Ekipi ynë ju ndihmon të bëni zgjedhjen e duhur sipas nevojave tuaja.</div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY US -->
+<section id="pse-ne">
+  <div class="section-label">Pse ne</div>
+  <h2 class="section-title">Dyqani juaj i besuar</h2>
+  <p class="section-sub">Çfarë na bën të ndryshëm nga dyqanet e tjera.</p>
+  <div class="why-grid">
+    <div class="why-item">
+      <div class="why-num">01</div>
+      <div class="why-title">Çmime transparente</div>
+      <div class="why-desc">Asnjë kosto e fshehur. Çmimi që shihni është çmimi final — pa surpriza në arkë.</div>
+    </div>
+    <div class="why-item">
+      <div class="why-num">02</div>
+      <div class="why-title">Stok i madh</div>
+      <div class="why-desc">Mbi 100+ modele gjithnjë të disponueshme. iPhone 11 deri te 17 Pro Max — i gjeni te ne.</div>
+    </div>
+    <div class="why-item">
+      <div class="why-num">03</div>
+      <div class="why-title">Origjinalitet i garantuar</div>
+      <div class="why-desc">Çdo pajisje vjen me certifikim FC/CE dhe serial number të verifikueshëm drejtpërdrejt te Apple/Samsung.</div>
+    </div>
+    <div class="why-item">
+      <div class="why-num">04</div>
+      <div class="why-title">Shërbim afatgjatë</div>
+      <div class="why-desc">Jemi këtu edhe pas blerjes. Garancia jonë nuk është vetëm letër — ju mbështesim gjatë gjithë periudhës.</div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact-section" id="kontakti">
+  <div class="section-label">Kontakti</div>
+  <h2 class="section-title">Na gjeni çdo ditë</h2>
+  <p class="section-sub">Jemi të disponueshëm nga e hëna deri të shtunën. Na vizitoni ose na kontaktoni direkt.</p>
+  <div class="contact-grid">
+    <div class="contact-info">
+      <div class="contact-item">
+        <div class="contact-item-icon">📍</div>
+        <div>
+          <div class="contact-item-label">Adresa</div>
+          <div class="contact-item-value">Rr. Brigada 123, Suharekë<br><span style="color:var(--muted);font-size:0.83rem">Përballë Komunës</span></div>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-item-icon">📞</div>
+        <div>
+          <div class="contact-item-label">Telefon</div>
+          <div class="contact-item-value">+383 (0)49 750 777</div>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-item-icon">🕐</div>
+        <div>
+          <div class="contact-item-label">Orari</div>
+          <div class="contact-item-value">E Hënë – E Shtunë<br><span style="color:var(--muted);font-size:0.83rem">09:00 – 20:00</span></div>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-item-icon">📸</div>
+        <div>
+          <div class="contact-item-label">Instagram</div>
+          <div class="contact-item-value">@mobilshopmana.suhareke</div>
+        </div>
+      </div>
+    </div>
+    <div class="contact-form">
+      <div class="form-group">
+        <label class="form-label">Emri juaj</label>
+        <input type="text" class="form-input" placeholder="p.sh. Ardit Gashi">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Numri i telefonit</label>
+        <input type="tel" class="form-input" placeholder="+383 4X XXX XXX">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Modeli që ju intereson</label>
+        <input type="text" class="form-input" placeholder="p.sh. iPhone 17 Pro Max 256GB">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Mesazhi (opsional)</label>
+        <textarea class="form-textarea" placeholder="Çfarë dëshironi të dini?"></textarea>
+      </div>
+      <button class="btn-primary" style="width:100%; justify-content:center; margin-top:0.5rem;">
+        <span>Dërgo Kërkesën</span>
+        <span>→</span>
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo">Mana<span>'s</span> Mobil Shop</div>
+    <div class="footer-links">
+      <a href="#produktet">Produktet</a>
+      <a href="#sherbime">Shërbime</a>
+      <a href="#pse-ne">Pse Ne</a>
+      <a href="#kontakti">Kontakti</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 Mana's Mobil Shop · Suharekë, Kosovë</span>
+    <span>Rr. Brigada 123 · +383 (0)49 750 777</span>
+  </div>
+</footer>
+
+<script>
+  // Tab filter
+  document.querySelectorAll('.tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+    });
+  });
+
+  // Scroll reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.style.opacity = '1';
+        e.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.product-card, .service-card, .why-item, .contact-item').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(20px)';
+    el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+    observer.observe(el);
+  });
+</script>
+</body>
+</html>
